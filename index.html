@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formulas Helper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: white;
+            color: #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .formulas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .formula-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .formula-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .formula-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .formula-definition {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-style: italic;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 3px solid #2196F3;
+        }
+
+        .formula-equation {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .calculator-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field input:focus {
+            border-color: #4CAF50;
+        }
+
+        .calculate-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .calculate-btn:hover {
+            background: #45a049;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+            font-weight: 500;
+            color: #2e7d2e;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .formula-icon {
+            width: 24px;
+            height: 24px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .formulas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                justify-content: start;
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: none;
+                min-width: auto;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer h4 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .footer p {
+            margin: 8px 0;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #66BB6A;
+            text-decoration: underline;
+        }
+
+        .footer .tagline {
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Physics Formulas Helper</h1>
+            <p>Complete interactive calculators and reference guide for physics students - 72 Essential Formulas</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search formulas by name, concept, or definition..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('all')">All Formulas</button>
+            <button class="tab" onclick="switchTab('mechanics')">Mechanics</button>
+            <button class="tab" onclick="switchTab('electricity')">Electricity</button>
+            <button class="tab" onclick="switchTab('energy')">Energy</button>
+            <button class="tab" onclick="switchTab('waves')">Waves</button>
+            <button class="tab" onclick="switchTab('thermodynamics')">Thermal</button>
+            <button class="tab" onclick="switchTab('projectile')">Projectile</button>
+            <button class="tab" onclick="switchTab('magnetism')">Magnetism</button>
+            <button class="tab" onclick="switchTab('modern')">Modern</button>
+            <button class="tab" onclick="switchTab('optics')">Optics</button>
+            <button class="tab" onclick="switchTab('geometry')">Geometry</button>
+        </div>
+
+        <div class="content" id="content">
+            <div class="formulas-grid" id="formulasGrid"></div>
+        </div>
+
+        <div class="footer">
+            <h4>Built by Victory Hour Multimedia Inc.</h4>
+            <p>🌐 <a href="https://www.victoryhourmedia.com" target="_blank">www.victoryhourmedia.com</a> | ✉️ <a href="mailto:info@victoryhourmedia.com">info@victoryhourmedia.com</a></p>
+            <p class="tagline">We build brands that lead. From strategy to design to digital presence—your growth is our mission.</p>
+        </div>
+    </div>
+
+    <script>
+        const formulas = [
+            {
+                id: 1,
+                title: "Area",
+                equation: "Area = length × breadth",
+                definition: "The amount of space enclosed within a 2D shape or surface.",
+                category: "geometry",
+                variables: ["length", "breadth"],
+                calculate: (vars) => vars.length * vars.breadth,
+                unit: "m²"
+            },
+            {
+                id: 2,
+                title: "Volume",
+                equation: "Volume = length × breadth × height",
+                definition: "The amount of 3D space occupied by an object or enclosed within a container.",
+                category: "geometry",
+                variables: ["length", "breadth", "height"],
+                calculate: (vars) => vars.length * vars.breadth * vars.height,
+                unit: "m³"
+            },
+            {
+                id: 3,
+                title: "Density",
+                equation: "Density = mass / volume",
+                definition: "The amount of mass per unit volume of a substance - how tightly packed matter is.",
+                category: "mechanics",
+                variables: ["mass", "volume"],
+                calculate: (vars) => vars.mass / vars.volume,
+                unit: "kg/m³"
+            },
+            {
+                id: 4,
+                title: "Frequency",
+                equation: "frequency = 1 / time_period",
+                definition: "The number of complete cycles or oscillations that occur per unit time.",
+                category: "mechanics",
+                variables: ["time_period"],
+                calculate: (vars) => 1 / vars.time_period,
+                unit: "Hz"
+            },
+            {
+                id: 5,
+                title: "Velocity",
+                equation: "velocity = displacement / time",
+                definition: "The rate of change of position with respect to time, including direction.",
+                category: "mechanics",
+                variables: ["displacement", "time"],
+                calculate: (vars) => vars.displacement / vars.time,
+                unit: "m/s"
+            },
+            {
+                id: 6,
+                title: "Acceleration",
+                equation: "acceleration = change_in_velocity / time",
+                definition: "The rate of change of velocity with respect to time - how quickly something speeds up or slows down.",
+                category: "mechanics",
+                variables: ["change_in_velocity", "time"],
+                calculate: (vars) => vars.change_in_velocity / vars.time,
+                unit: "m/s²"
+            },
+            {
+                id: 7,
+                title: "Force",
+                equation: "force = mass × acceleration",
+                definition: "A push or pull that can cause an object to accelerate, decelerate, or change direction.",
+                category: "mechanics",
+                variables: ["mass", "acceleration"],
+                calculate: (vars) => vars.mass * vars.acceleration,
+                unit: "N"
+            },
+            {
+                id: 8,
+                title: "Impulse",
+                equation: "impulse = force × time",
+                definition: "The change in momentum of an object when a force is applied over a period of time.",
+                category: "mechanics",
+                variables: ["force", "time"],
+                calculate: (vars) => vars.force * vars.time,
+                unit: "N⋅s"
+            },
+            {
+                id: 9,
+                title: "Work",
+                equation: "work = force × displacement",
+                definition: "The energy transferred when a force moves an object through a distance.",
+                category: "energy",
+                variables: ["force", "displacement"],
+                calculate: (vars) => vars.force * vars.displacement,
+                unit: "J"
+            },
+            {
+                id: 10,
+                title: "Power",
+                equation: "power = work / time",
+                definition: "The rate at which work is done or energy is transferred per unit time.",
+                category: "energy",
+                variables: ["work", "time"],
+                calculate: (vars) => vars.work / vars.time,
+                unit: "W"
+            },
+            {
+                id: 11,
+                title: "Momentum",
+                equation: "momentum = mass × velocity",
+                definition: "The quantity of motion an object has - harder to stop objects with greater momentum.",
+                category: "mechanics",
+                variables: ["mass", "velocity"],
+                calculate: (vars) => vars.mass * vars.velocity,
+                unit: "kg⋅m/s"
+            },
+            {
+                id: 12,
+                title: "Pressure",
+                equation: "pressure = force / area",
+                definition: "The amount of force applied per unit area - like the weight pressing down on a surface.",
+                category: "mechanics",
+                variables: ["force", "area"],
+                calculate: (vars) => vars.force / vars.area,
+                unit: "Pa"
+            },
+            {
+                id: 13,
+                title: "Surface Tension",
+                equation: "surface_tension = force / length",
+                definition: "The force per unit length acting along the surface of a liquid, causing it to behave like a stretched membrane.",
+                category: "mechanics",
+                variables: ["force", "length"],
+                calculate: (vars) => vars.force / vars.length,
+                unit: "N/m"
+            },
+            {
+                id: 14,
+                title: "Electric Charge",
+                equation: "charge = electric_current × time",
+                definition: "The total amount of electric charge that flows through a conductor over time.",
+                category: "electricity",
+                variables: ["electric_current", "time"],
+                calculate: (vars) => vars.electric_current * vars.time,
+                unit: "C"
+            },
+            {
+                id: 15,
+                title: "Resistance",
+                equation: "resistance = potential_difference / electric_current",
+                definition: "The opposition to the flow of electric current through a material or component.",
+                category: "electricity",
+                variables: ["potential_difference", "electric_current"],
+                calculate: (vars) => vars.potential_difference / vars.electric_current,
+                unit: "Ω"
+            },
+            {
+                id: 16,
+                title: "Capacitance",
+                equation: "capacitance = charge / potential_difference",
+                definition: "The ability of a component to store electric charge at a given voltage.",
+                category: "electricity",
+                variables: ["charge", "potential_difference"],
+                calculate: (vars) => vars.charge / vars.potential_difference,
+                unit: "F"
+            },
+            {
+                id: 17,
+                title: "Electric Field",
+                equation: "electric_field = electric_force / charge",
+                definition: "The force per unit charge that would be experienced by a small test charge placed in the field.",
+                category: "electricity",
+                variables: ["electric_force", "charge"],
+                calculate: (vars) => vars.electric_force / vars.charge,
+                unit: "N/C"
+            },
+            {
+                id: 18,
+                title: "Angular Velocity",
+                equation: "angular_velocity = angle / time",
+                definition: "The rate of change of angular position - how fast something rotates or revolves.",
+                category: "mechanics",
+                variables: ["angle", "time"],
+                calculate: (vars) => vars.angle / vars.time,
+                unit: "rad/s"
+            },
+            {
+                id: 19,
+                title: "Angular Acceleration",
+                equation: "angular_acceleration = change_in_angular_velocity / time",
+                definition: "The rate of change of angular velocity - how quickly rotational motion speeds up or slows down.",
+                category: "mechanics",
+                variables: ["change_in_angular_velocity", "time"],
+                calculate: (vars) => vars.change_in_angular_velocity / vars.time,
+                unit: "rad/s²"
+            },
+            {
+                id: 20,
+                title: "Moment of Inertia",
+                equation: "moment_of_inertia = mass × radius²",
+                definition: "A measure of an object's resistance to rotational motion - how hard it is to spin up or slow down.",
+                category: "mechanics",
+                variables: ["mass", "radius"],
+                calculate: (vars) => vars.mass * vars.radius * vars.radius,
+                unit: "kg⋅m²"
+            },
+            {
+                id: 21,
+                title: "Angular Momentum",
+                equation: "angular_momentum = moment_of_inertia × angular_velocity",
+                definition: "The rotational equivalent of linear momentum - the quantity of rotational motion an object has.",
+                category: "mechanics",
+                variables: ["moment_of_inertia", "angular_velocity"],
+                calculate: (vars) => vars.moment_of_inertia * vars.angular_velocity,
+                unit: "kg⋅m²/s"
+            },
+            {
+                id: 22,
+                title: "Torque",
+                equation: "torque = force × radius",
+                definition: "The rotational force that causes an object to rotate about an axis - like twisting a wrench.",
+                category: "mechanics",
+                variables: ["force", "radius"],
+                calculate: (vars) => vars.force * vars.radius,
+                unit: "N⋅m"
+            },
+            {
+                id: 23,
+                title: "Kinetic Energy",
+                equation: "kinetic_energy = ½ × mass × velocity²",
+                definition: "The energy an object possesses due to its motion - moving objects can do work when they stop.",
+                category: "energy",
+                variables: ["mass", "velocity"],
+                calculate: (vars) => 0.5 * vars.mass * vars.velocity * vars.velocity,
+                unit: "J"
+            },
+            {
+                id: 24,
+                title: "Potential Energy",
+                equation: "potential_energy = mass × gravitational_acceleration × height",
+                definition: "The stored energy an object has due to its position in a gravitational field.",
+                category: "energy",
+                variables: ["mass", "gravitational_acceleration", "height"],
+                calculate: (vars) => vars.mass * vars.gravitational_acceleration * vars.height,
+                unit: "J"
+            },
+            {
+                id: 25,
+                title: "Angular Impulse",
+                equation: "angular_impulse = torque × time",
+                definition: "The change in angular momentum when a torque is applied over time - the rotational version of impulse.",
+                category: "mechanics",
+                variables: ["torque", "time"],
+                calculate: (vars) => vars.torque * vars.time,
+                unit: "N⋅m⋅s"
+            },
+            {
+                id: 26,
+                title: "Centripetal Force",
+                equation: "centripetal_force = mass × velocity² / radius",
+                definition: "The inward force required to keep an object moving in a circular path - points toward the center.",
+                category: "mechanics",
+                variables: ["mass", "velocity", "radius"],
+                calculate: (vars) => vars.mass * vars.velocity * vars.velocity / vars.radius,
+                unit: "N"
+            },
+            {
+                id: 27,
+                title: "Centripetal Acceleration",
+                equation: "centripetal_acceleration = velocity² / radius",
+                definition: "The acceleration directed toward the center of circular motion - keeps objects moving in circles.",
+                category: "mechanics",
+                variables: ["velocity", "radius"],
+                calculate: (vars) => vars.velocity * vars.velocity / vars.radius,
+                unit: "m/s²"
+            },
+            {
+                id: 28,
+                title: "Wave Speed",
+                equation: "wave_speed = frequency × wavelength",
+                definition: "The speed at which a wave travels through a medium - how fast the wave pattern moves.",
+                category: "waves",
+                variables: ["frequency", "wavelength"],
+                calculate: (vars) => vars.frequency * vars.wavelength,
+                unit: "m/s"
+            },
+            {
+                id: 29,
+                title: "Period",
+                equation: "period = 1 / frequency",
+                definition: "The time it takes for one complete cycle of a wave or oscillation to occur.",
+                category: "waves",
+                variables: ["frequency"],
+                calculate: (vars) => 1 / vars.frequency,
+                unit: "s"
+            },
+            {
+                id: 30,
+                title: "Heat Transfer",
+                equation: "heat = mass × specific_heat × temperature_change",
+                definition: "The amount of thermal energy transferred when a substance changes temperature.",
+                category: "thermodynamics",
+                variables: ["mass", "specific_heat", "temperature_change"],
+                calculate: (vars) => vars.mass * vars.specific_heat * vars.temperature_change,
+                unit: "J"
+            },
+            {
+                id: 31,
+                title: "Ohm's Law",
+                equation: "voltage = current × resistance",
+                definition: "The relationship between voltage, current, and resistance in an electrical circuit.",
+                category: "electricity",
+                variables: ["current", "resistance"],
+                calculate: (vars) => vars.current * vars.resistance,
+                unit: "V"
+            },
+            {
+                id: 32,
+                title: "Electrical Power (VI)",
+                equation: "power = voltage × current",
+                definition: "The rate at which electrical energy is consumed or produced in a circuit.",
+                category: "electricity",
+                variables: ["voltage", "current"],
+                calculate: (vars) => vars.voltage * vars.current,
+                unit: "W"
+            },
+            {
+                id: 33,
+                title: "Electrical Power (I²R)",
+                equation: "power = current² × resistance",
+                definition: "Alternative form of electrical power using current and resistance.",
+                category: "electricity",
+                variables: ["current", "resistance"],
+                calculate: (vars) => vars.current * vars.current * vars.resistance,
+                unit: "W"
+            },
+            {
+                id: 34,
+                title: "Electrical Power (V²/R)",
+                equation: "power = voltage² / resistance",
+                definition: "Alternative form of electrical power using voltage and resistance.",
+                category: "electricity",
+                variables: ["voltage", "resistance"],
+                calculate: (vars) => (vars.voltage * vars.voltage) / vars.resistance,
+                unit: "W"
+            },
+            {
+                id: 35,
+                title: "Hooke's Law",
+                equation: "force = spring_constant × displacement",
+                definition: "The force exerted by a spring is proportional to how far it's stretched or compressed.",
+                category: "mechanics",
+                variables: ["spring_constant", "displacement"],
+                calculate: (vars) => vars.spring_constant * vars.displacement,
+                unit: "N"
+            },
+            {
+                id: 36,
+                title: "Gravitational Force",
+                equation: "force = G × mass1 × mass2 / distance²",
+                definition: "The attractive force between any two objects with mass - Newton's law of universal gravitation.",
+                category: "mechanics",
+                variables: ["G", "mass1", "mass2", "distance"],
+                calculate: (vars) => (vars.G * vars.mass1 * vars.mass2) / (vars.distance * vars.distance),
+                unit: "N"
+            },
+            {
+                id: 37,
+                title: "Spring Period",
+                equation: "period = 2π × √(mass / spring_constant)",
+                definition: "The time for one complete oscillation of a mass-spring system.",
+                category: "waves",
+                variables: ["mass", "spring_constant"],
+                calculate: (vars) => 2 * Math.PI * Math.sqrt(vars.mass / vars.spring_constant),
+                unit: "s"
+            },
+            {
+                id: 38,
+                title: "Buoyant Force",
+                equation: "buoyant_force = density × volume × gravity",
+                definition: "The upward force exerted by a fluid on a submerged or floating object (Archimedes' principle).",
+                category: "mechanics",
+                variables: ["density", "volume", "gravity"],
+                calculate: (vars) => vars.density * vars.volume * vars.gravity,
+                unit: "N"
+            },
+            {
+                id: 39,
+                title: "Flow Rate",
+                equation: "flow_rate = area × velocity",
+                definition: "The volume of fluid that passes through a cross-section per unit time.",
+                category: "mechanics",
+                variables: ["area", "velocity"],
+                calculate: (vars) => vars.area * vars.velocity,
+                unit: "m³/s"
+            },
+            {
+                id: 40,
+                title: "Lens Equation",
+                equation: "1/focal_length = 1/object_distance + 1/image_distance",
+                definition: "Relates the focal length of a lens to the object and image distances for thin lenses.",
+                category: "optics",
+                variables: ["object_distance", "image_distance"],
+                calculate: (vars) => 1 / (1/vars.object_distance + 1/vars.image_distance),
+                unit: "m"
+            },
+            {
+                id: 41,
+                title: "Magnification",
+                equation: "magnification = image_height / object_height",
+                definition: "How much larger or smaller an image appears compared to the original object.",
+                category: "optics",
+                variables: ["image_height", "object_height"],
+                calculate: (vars) => vars.image_height / vars.object_height,
+                unit: "unitless"
+            },
+            {
+                id: 42,
+                title: "Efficiency",
+                equation: "efficiency = useful_output / total_input",
+                definition: "The ratio of useful energy output to total energy input, often expressed as a percentage.",
+                category: "energy",
+                variables: ["useful_output", "total_input"],
+                calculate: (vars) => vars.useful_output / vars.total_input,
+                unit: "ratio"
+            },
+            {
+                id: 43,
+                title: "Projectile Range",
+                equation: "range = initial_velocity² × sin(2×angle) / gravity",
+                definition: "The horizontal distance a projectile travels when launched at an angle.",
+                category: "projectile",
+                variables: ["initial_velocity", "angle", "gravity"],
+                calculate: (vars) => (vars.initial_velocity * vars.initial_velocity * Math.sin(2 * vars.angle * Math.PI / 180)) / vars.gravity,
+                unit: "m"
+            },
+            {
+                id: 44,
+                title: "Projectile Max Height",
+                equation: "max_height = initial_velocity² × sin²(angle) / (2 × gravity)",
+                definition: "The maximum vertical height reached by a projectile launched at an angle.",
+                category: "projectile",
+                variables: ["initial_velocity", "angle", "gravity"],
+                calculate: (vars) => (vars.initial_velocity * vars.initial_velocity * Math.sin(vars.angle * Math.PI / 180) * Math.sin(vars.angle * Math.PI / 180)) / (2 * vars.gravity),
+                unit: "m"
+            },
+            {
+                id: 45,
+                title: "Projectile Time of Flight",
+                equation: "time_of_flight = 2 × initial_velocity × sin(angle) / gravity",
+                definition: "The total time a projectile spends in the air from launch to landing.",
+                category: "projectile",
+                variables: ["initial_velocity", "angle", "gravity"],
+                calculate: (vars) => (2 * vars.initial_velocity * Math.sin(vars.angle * Math.PI / 180)) / vars.gravity,
+                unit: "s"
+            },
+            {
+                id: 46,
+                title: "Ideal Gas Law",
+                equation: "pressure × volume = amount × gas_constant × temperature",
+                definition: "Describes the relationship between pressure, volume, temperature, and amount of gas.",
+                category: "thermodynamics",
+                variables: ["pressure", "volume", "amount", "gas_constant", "temperature"],
+                calculate: (vars) => "Use: PV = nRT where R = 8.314 J/(mol·K)",
+                unit: "Various"
+            },
+            {
+                id: 47,
+                title: "Boyle's Law",
+                equation: "pressure1 × volume1 = pressure2 × volume2",
+                definition: "At constant temperature, pressure and volume of a gas are inversely proportional.",
+                category: "thermodynamics",
+                variables: ["pressure1", "volume1", "pressure2"],
+                calculate: (vars) => (vars.pressure1 * vars.volume1) / vars.pressure2,
+                unit: "L or m³"
+            },
+            {
+                id: 48,
+                title: "Charles's Law",
+                equation: "volume1 / temperature1 = volume2 / temperature2",
+                definition: "At constant pressure, volume and temperature of a gas are directly proportional.",
+                category: "thermodynamics",
+                variables: ["volume1", "temperature1", "temperature2"],
+                calculate: (vars) => (vars.volume1 * vars.temperature2) / vars.temperature1,
+                unit: "L or m³"
+            },
+            {
+                id: 49,
+                title: "Thermal Expansion",
+                equation: "length_change = expansion_coefficient × original_length × temperature_change",
+                definition: "How much a material expands or contracts when its temperature changes.",
+                category: "thermodynamics",
+                variables: ["expansion_coefficient", "original_length", "temperature_change"],
+                calculate: (vars) => vars.expansion_coefficient * vars.original_length * vars.temperature_change,
+                unit: "m"
+            },
+            {
+                id: 50,
+                title: "Doppler Effect",
+                equation: "observed_frequency = source_frequency × (wave_speed ± observer_speed) / (wave_speed ± source_speed)",
+                definition: "The change in frequency of a wave when the source or observer is moving.",
+                category: "waves",
+                variables: ["source_frequency", "wave_speed", "observer_speed", "source_speed"],
+                calculate: (vars) => vars.source_frequency * (vars.wave_speed + vars.observer_speed) / (vars.wave_speed + vars.source_speed),
+                unit: "Hz"
+            },
+            {
+                id: 51,
+                title: "Beat Frequency",
+                equation: "beat_frequency = |frequency1 - frequency2|",
+                definition: "The frequency of the beating pattern created when two similar frequencies interfere.",
+                category: "waves",
+                variables: ["frequency1", "frequency2"],
+                calculate: (vars) => Math.abs(vars.frequency1 - vars.frequency2),
+                unit: "Hz"
+            },
+            {
+                id: 52,
+                title: "Magnetic Force on Charge",
+                equation: "force = charge × velocity × magnetic_field",
+                definition: "The force experienced by a moving charged particle in a magnetic field.",
+                category: "magnetism",
+                variables: ["charge", "velocity", "magnetic_field"],
+                calculate: (vars) => vars.charge * vars.velocity * vars.magnetic_field,
+                unit: "N"
+            },
+            {
+                id: 53,
+                title: "Transformer Ratio",
+                equation: "voltage1 / voltage2 = turns1 / turns2",
+                definition: "The relationship between voltages and number of wire turns in a transformer.",
+                category: "electricity",
+                variables: ["voltage1", "turns1", "turns2"],
+                calculate: (vars) => (vars.voltage1 * vars.turns2) / vars.turns1,
+                unit: "V"
+            },
+            {
+                id: 54,
+                title: "RC Time Constant",
+                equation: "time_constant = resistance × capacitance",
+                definition: "The time it takes for a capacitor to charge to about 63% of its final voltage.",
+                category: "electricity",
+                variables: ["resistance", "capacitance"],
+                calculate: (vars) => vars.resistance * vars.capacitance,
+                unit: "s"
+            },
+            {
+                id: 55,
+                title: "Photon Energy",
+                equation: "energy = planck_constant × frequency",
+                definition: "The energy carried by a single photon of electromagnetic radiation.",
+                category: "modern",
+                variables: ["planck_constant", "frequency"],
+                calculate: (vars) => vars.planck_constant * vars.frequency,
+                unit: "J"
+            },
+            {
+                id: 56,
+                title: "de Broglie Wavelength",
+                equation: "wavelength = planck_constant / momentum",
+                definition: "The wavelength associated with any moving particle (wave-particle duality).",
+                category: "modern",
+                variables: ["planck_constant", "momentum"],
+                calculate: (vars) => vars.planck_constant / vars.momentum,
+                unit: "m"
+            },
+            {
+                id: 57,
+                title: "Mass-Energy Equivalence",
+                equation: "energy = mass × speed_of_light²",
+                definition: "Einstein's famous equation showing the equivalence of mass and energy.",
+                category: "modern",
+                variables: ["mass", "speed_of_light"],
+                calculate: (vars) => vars.mass * vars.speed_of_light * vars.speed_of_light,
+                unit: "J"
+            },
+            {
+                id: 58,
+                title: "Escape Velocity",
+                equation: "escape_velocity = √(2 × G × mass / radius)",
+                definition: "The minimum velocity needed for an object to escape a planet's gravitational pull.",
+                category: "mechanics",
+                variables: ["G", "mass", "radius"],
+                calculate: (vars) => Math.sqrt((2 * vars.G * vars.mass) / vars.radius),
+                unit: "m/s"
+            },
+            {
+                id: 59,
+                title: "Orbital Velocity",
+                equation: "orbital_velocity = √(G × mass / radius)",
+                definition: "The velocity needed to maintain a circular orbit around a massive object.",
+                category: "mechanics",
+                variables: ["G", "mass", "radius"],
+                calculate: (vars) => Math.sqrt((vars.G * vars.mass) / vars.radius),
+                unit: "m/s"
+            },
+            {
+                id: 60,
+                title: "Radioactive Decay",
+                equation: "final_amount = initial_amount × e^(-decay_constant × time)",
+                definition: "The exponential decrease in the number of radioactive nuclei over time.",
+                category: "modern",
+                variables: ["initial_amount", "decay_constant", "time"],
+                calculate: (vars) => vars.initial_amount * Math.exp(-vars.decay_constant * vars.time),
+                unit: "nuclei"
+            },
+            {
+                id: 61,
+                title: "Snell's Law",
+                equation: "n1 × sin(angle1) = n2 × sin(angle2)",
+                definition: "Describes how light bends when it passes from one medium to another with different refractive indices.",
+                category: "optics",
+                variables: ["n1", "angle1", "n2"],
+                calculate: (vars) => Math.asin((vars.n1 * Math.sin(vars.angle1 * Math.PI / 180)) / vars.n2) * 180 / Math.PI,
+                unit: "degrees"
+            },
+            {
+                id: 62,
+                title: "Mirror Equation",
+                equation: "1/focal_length = 1/object_distance + 1/image_distance",
+                definition: "Relates focal length, object distance, and image distance for curved mirrors.",
+                category: "optics",
+                variables: ["object_distance", "image_distance"],
+                calculate: (vars) => 1 / (1/vars.object_distance + 1/vars.image_distance),
+                unit: "m"
+            },
+            {
+                id: 63,
+                title: "Critical Angle",
+                equation: "critical_angle = arcsin(n2 / n1)",
+                definition: "The angle of incidence beyond which total internal reflection occurs.",
+                category: "optics",
+                variables: ["n2", "n1"],
+                calculate: (vars) => Math.asin(vars.n2 / vars.n1) * 180 / Math.PI,
+                unit: "degrees"
+            },
+            {
+                id: 64,
+                title: "Bernoulli's Equation",
+                equation: "pressure + ½ × density × velocity² + density × gravity × height = constant",
+                definition: "Conservation of energy for fluid flow - explains lift, flow rates, and pressure changes.",
+                category: "mechanics",
+                variables: ["pressure", "density", "velocity", "gravity", "height"],
+                calculate: (vars) => vars.pressure + 0.5 * vars.density * vars.velocity * vars.velocity + vars.density * vars.gravity * vars.height,
+                unit: "Pa"
+            },
+            {
+                id: 65,
+                title: "Continuity Equation",
+                equation: "area1 × velocity1 = area2 × velocity2",
+                definition: "Conservation of mass for fluid flow - narrow pipes have faster flow.",
+                category: "mechanics",
+                variables: ["area1", "velocity1", "area2"],
+                calculate: (vars) => (vars.area1 * vars.velocity1) / vars.area2,
+                unit: "m/s"
+            },
+            {
+                id: 66,
+                title: "Capacitor Energy",
+                equation: "energy = ½ × capacitance × voltage²",
+                definition: "The energy stored in a charged capacitor's electric field.",
+                category: "electricity",
+                variables: ["capacitance", "voltage"],
+                calculate: (vars) => 0.5 * vars.capacitance * vars.voltage * vars.voltage,
+                unit: "J"
+            },
+            {
+                id: 67,
+                title: "Series Capacitors",
+                equation: "1/total_capacitance = 1/capacitor1 + 1/capacitor2",
+                definition: "The total capacitance of capacitors connected in series.",
+                category: "electricity",
+                variables: ["capacitor1", "capacitor2"],
+                calculate: (vars) => 1 / (1/vars.capacitor1 + 1/vars.capacitor2),
+                unit: "F"
+            },
+            {
+                id: 68,
+                title: "Parallel Capacitors",
+                equation: "total_capacitance = capacitor1 + capacitor2",
+                definition: "The total capacitance of capacitors connected in parallel.",
+                category: "electricity",
+                variables: ["capacitor1", "capacitor2"],
+                calculate: (vars) => vars.capacitor1 + vars.capacitor2,
+                unit: "F"
+            },
+            {
+                id: 69,
+                title: "Magnetic Field (Wire)",
+                equation: "magnetic_field = permeability × current / (2π × distance)",
+                definition: "The magnetic field strength around a long straight current-carrying wire.",
+                category: "magnetism",
+                variables: ["permeability", "current", "distance"],
+                calculate: (vars) => (vars.permeability * vars.current) / (2 * Math.PI * vars.distance),
+                unit: "T"
+            },
+            {
+                id: 70,
+                title: "Solenoid Magnetic Field",
+                equation: "magnetic_field = permeability × turns_per_length × current",
+                definition: "The magnetic field inside a solenoid (coil of wire).",
+                category: "magnetism",
+                variables: ["permeability", "turns_per_length", "current"],
+                calculate: (vars) => vars.permeability * vars.turns_per_length * vars.current,
+                unit: "T"
+            },
+            {
+                id: 71,
+                title: "Photoelectric Effect",
+                equation: "kinetic_energy = photon_energy - work_function",
+                definition: "Einstein's equation for the energy of electrons emitted when light hits a surface.",
+                category: "modern",
+                variables: ["photon_energy", "work_function"],
+                calculate: (vars) => vars.photon_energy - vars.work_function,
+                unit: "J"
+            },
+            {
+                id: 72,
+                title: "Fundamental Frequency",
+                equation: "frequency = wave_speed / (2 × length)",
+                definition: "The lowest frequency of vibration for strings, pipes, and other resonators.",
+                category: "waves",
+                variables: ["wave_speed", "length"],
+                calculate: (vars) => vars.wave_speed / (2 * vars.length),
+                unit: "Hz"
+            }
+        ];
+
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        function formatVariableName(name) {
+            return name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function createFormulaCard(formula) {
+            const card = document.createElement('div');
+            card.className = 'formula-card';
+            card.innerHTML = `
+                <div class="formula-title">
+                    <div class="formula-icon">${formula.id}</div>
+                    ${formula.title}
+                </div>
+                <div class="formula-definition">${formula.definition}</div>
+                <div class="formula-equation">${formula.equation.replace(/_/g, ' ')}</div>
+                <div class="calculator-section">
+                    <div class="input-group">
+                        ${formula.variables.map(variable => `
+                            <div class="input-field">
+                                <label for="${formula.id}_${variable}">${formatVariableName(variable)}</label>
+                                <input type="number" step="any" id="${formula.id}_${variable}" placeholder="Enter ${formatVariableName(variable).toLowerCase()}">
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="calculate-btn" onclick="calculate(${formula.id})">Calculate</button>
+                    <div class="result hidden" id="result_${formula.id}"></div>
+                </div>
+            `;
+            return card;
+        }
+
+        function calculate(formulaId) {
+            const formula = formulas.find(f => f.id === formulaId);
+            const variables = {};
+            let allFilled = true;
+
+            formula.variables.forEach(variable => {
+                const input = document.getElementById(`${formulaId}_${variable}`);
+                const value = parseFloat(input.value);
+                if (isNaN(value)) {
+                    allFilled = false;
+                } else {
+                    variables[variable] = value;
+                }
+            });
+
+            const resultDiv = document.getElementById(`result_${formulaId}`);
+            
+            if (!allFilled) {
+                resultDiv.innerHTML = 'Please fill in all fields';
+                resultDiv.style.background = '#ffe8e8';
+                resultDiv.style.color = '#d32f2f';
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const result = formula.calculate(variables);
+                resultDiv.innerHTML = `${formula.title} = ${result.toFixed(4)} ${formula.unit}`;
+                resultDiv.style.background = '#e8f5e8';
+                resultDiv.style.color = '#2e7d2e';
+                resultDiv.classList.remove('hidden');
+            } catch (error) {
+                resultDiv.innerHTML = 'Error in calculation';
+                resultDiv.style.background = '#ffe8e8';
+                resultDiv.style.color = '#d32f2f';
+                resultDiv.classList.remove('hidden');
+            }
+        }
+
+        function filterFormulas() {
+            return formulas.filter(formula => {
+                const categoryMatch = currentCategory === 'all' || formula.category === currentCategory;
+                const searchMatch = searchTerm === '' || 
+                    formula.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    formula.equation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    formula.definition.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    formula.category.toLowerCase().includes(searchTerm.toLowerCase());
+                
+                return categoryMatch && searchMatch;
+            });
+        }
+
+        function renderFormulas() {
+            const grid = document.getElementById('formulasGrid');
+            const filteredFormulas = filterFormulas();
+            
+            if (filteredFormulas.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #666; grid-column: 1/-1;"><h3>No formulas found</h3><p>Try adjusting your search or category filter.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = '';
+            filteredFormulas.forEach(formula => {
+                grid.appendChild(createFormulaCard(formula));
+            });
+        }
+
+        function switchTab(category) {
+            currentCategory = category;
+            
+            // Update tab appearance
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            renderFormulas();
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderFormulas();
+        });
+
+        // Initialize the app
+        renderFormulas();
+    </script>
+</body>
+</html>
